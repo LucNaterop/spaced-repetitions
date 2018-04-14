@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
-import { Platform, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import * as Na from 'native-base';
 
 export default class CardsList extends React.Component {
@@ -19,7 +17,7 @@ export default class CardsList extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://159.89.16.187:3000/wellsapi/v1/wells')
+    fetch(BaseAPI + '/cards')
     .then((response) => response.json()).then((r) => {
       if(r.status == 'error') alert(r.message);
       else {
@@ -31,11 +29,11 @@ export default class CardsList extends React.Component {
     }).catch((error) => { console.error(error); });
   }
 
-  renderRow(w) {
+  renderRow(card) {
     return (
-      <Na.ListItem onPress={() => this.props.navigation.navigate('WellsDetails', {_id: w._id})} >
+      <Na.ListItem onPress={() => this.props.navigation.navigate('CardDetail', {_id: card._id})} >
         <Na.Left>
-          <Na.Text>{w.title}</Na.Text>
+          <Na.Text>{card.frontContent}</Na.Text>
         </Na.Left>
         <Na.Right>
           <Na.Icon name="arrow-forward" />
@@ -45,20 +43,16 @@ export default class CardsList extends React.Component {
   }
 
   render() {
-    if(this.state.loading) return(
-      <View style={{flex: 1, padding: 20}}>
-        <ActivityIndicator/>
-      </View>
-    )
-      return (
-        <Na.Container>
-          <Na.Content style={{backgroundColor: 'white'}}>
-            <Na.List
-              dataArray={this.state.cards} 
-              renderRow={this.renderRow.bind(this)}
-            />
-          </Na.Content>
-        </Na.Container>
-      );
+    if(this.state.loading) return ( <Na.Spinner color='green'></Na.Spinner> );
+    return (
+      <Na.Container>
+        <Na.Content style={{backgroundColor: 'white'}}>
+          <Na.List
+            dataArray={this.state.cards} 
+            renderRow={this.renderRow.bind(this)}
+          />
+        </Na.Content>
+      </Na.Container>
+    );
   }
 }

@@ -12,6 +12,7 @@ import * as Na from 'native-base';
 import Login from './components/Login';
 import Register from './components/Register';
 import CardsList from './components/CardsList';
+import CardDetail from './components/CardDetail';
 
 
 class ProfileScreen extends React.Component {
@@ -48,8 +49,8 @@ const NavigationStack = StackNavigator({
   CardsList: {
     screen: CardsList,
   },
-  Profile: {
-    screen: ProfileScreen,
+  CardDetail: {
+    screen: CardDetail,
   },
 }, {
   initialRoute: 'Login'
